@@ -1,3 +1,21 @@
-out
-node_modules
+# Build output
+out/
+dist/
 *.vsix
+
+# Dependency directories
+node_modules/
+
+# IDE specific files
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
