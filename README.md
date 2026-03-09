@@ -1,71 +1,140 @@
-# dimsumlines README
+# DimSumLines
 
-This is the README for your extension "dimsumlines". After writing up a brief description, we recommend including the following sections.
+A VSCode extension that dims all lines except the currently focused line, helping you maintain focus on your current work.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Focus Mode**: Dims all lines except the one with cursor focus
+- **Regex Mode**: Dims lines matching regex patterns
+- **Toggle Command**: Quickly enable/disable dimming with `Ctrl+Shift+P` > "Toggle DimSumLines Dimming"
+- **Mode Switching Commands**: Quickly change between focus and regex modes
+- **Regex Pattern Management**: Add/clear regex patterns via commands
+- **Status Bar Indicator**: Shows current dimming status in bottom right
+- Configurable opacity level (0.1 to 0.9)
+- Automatically updates as you move your cursor or edit content
+- Works with any text file type
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Install from VSCode Marketplace (coming soon)
+2. Or install manually by packaging the extension
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Configuration
 
-## Requirements
+Add to your VSCode **user settings** (global/profile-specific):
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+```json
+{
+  "dimsumlines.mode": "focus", // or "regex"
+  "dimsumlines.opacity": 0.3,
+  "dimsumlines.regexPatterns": ["TODO", "FIXME", "debug"],
+  "dimsumlines.invertRegex": false
+}
+```
 
-## Extension Settings
+### Settings Scope
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+**User/Profile-specific settings** (current behavior):
+- Settings are saved in your VSCode user settings
+- Settings follow you across all projects and workspaces
+- Perfect for personal preferences that apply everywhere
+- Your dimming configuration is consistent everywhere you work
+- Settings are stored in your VSCode profile, not in project files
 
-For example:
+**Benefits of user-specific settings**:
+- Consistent experience across all your projects
+- No need to reconfigure for each workspace
+- Settings travel with your VSCode profile
+- Great for personal development preferences
+- Doesn't clutter project files with personal settings
 
-This extension contributes the following settings:
+### Modes
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- **Focus Mode** (`"focus"`): Dims all lines except the currently focused line
+- **Regex Mode** (`"regex"`): Dims lines that match the specified regex patterns
 
-## Known Issues
+### Regex Options
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `regexPatterns`: Array of regex patterns to match
+- `invertRegex`: If `true`, dims lines that DON'T match the patterns (highlight matches)
 
-## Release Notes
+## Usage
 
-Users appreciate release notes as you update your extension.
+### Basic Usage
+1. Install the extension
+2. Open any text file
+3. All lines except the focused one will be automatically dimmed (focus mode by default)
+4. Move your cursor to change which line is in focus
 
-### 1.0.0
+### Command Palette Commands (F1)
 
-Initial release of ...
+All commands are available via `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac):
 
-### 1.0.1
+- **Toggle DimSumLines Dimming**: Enable/disable all dimming
+- **DimSumLines: Select Mode**: Choose between Focus Mode and Regex Mode (dropdown)
+- **DimSumLines: Add Regex Pattern**: Add a new regex pattern interactively
+- **DimSumLines: Manage Regex Patterns**: View, review, and delete individual regex patterns
+- **DimSumLines: Clear Regex Patterns**: Remove all regex patterns
+- **DimSumLines: Toggle Invert Regex**: Toggle between dimming matching vs non-matching lines
 
-Fixed issue #.
+### Quick Mode Switching
+- Use `Ctrl+Shift+P` > "DimSumLines: Select Mode" to choose between modes
+- A dropdown will appear showing current mode and allowing you to switch
+- No need to edit settings manually!
 
-### 1.1.0
+### Regex Pattern Management
 
-Added features X, Y, and Z.
+#### Adding Patterns
+1. Press `Ctrl+Shift+P` and type "DimSumLines: Add Regex Pattern"
+2. Enter your regex pattern (e.g., `TODO|FIXME|debug`)
+3. Pattern is added immediately and takes effect
 
----
+#### Managing Patterns
+1. Press `Ctrl+Shift+P` and type "DimSumLines: Manage Regex Patterns"
+2. A list of all your current patterns will appear
+3. Select a pattern to delete it individually
+4. Get confirmation when pattern is removed
 
-## Following extension guidelines
+#### Clearing All Patterns
+1. Use "Clear Regex Patterns" to remove all patterns at once
+2. Great for starting fresh with new patterns
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+### Pattern Examples
+- `TODO|FIXME|DEBUG`: Dim lines containing these keywords
+- `console\.log.*`: Dim console.log statements
+- `//.*`: Dim comment lines
+- `debugger`: Dim debugger statements
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+### Toggle Dimming
+- Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac)
+- Type "Toggle DimSumLines Dimming" and press Enter
+- Or click the status bar indicator in the bottom right
+- A notification will confirm the new status
 
-## Working with Markdown
+### Status Bar Indicator
+- Look for the eye icon in the bottom right corner
+- `$(eye) DimSumLines: ON` - Dimming is active
+- `$(eye-closed) DimSumLines: OFF` - Dimming is disabled
+- Click the indicator to toggle dimming on/off
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+### Focus Mode
+- Default mode: dims all lines except the currently focused line
+- Great for maintaining focus on your current work
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### Regex Mode
+1. Set `"dimsumlines.mode": "regex"` in your settings
+2. Add regex patterns to `"dimsumlines.regexPatterns"`
+3. Lines matching the patterns will be dimmed
+4. Use `"dimsumlines.invertRegex": true` to dim non-matching lines instead (highlight matches)
 
-## For more information
+## Development
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+```bash
+npm install
+npm run watch  # for development
+npm run compile # for production build
+```
 
-**Enjoy!**
+## License
+
+MIT
